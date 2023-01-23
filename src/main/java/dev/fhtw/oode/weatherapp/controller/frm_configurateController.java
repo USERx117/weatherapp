@@ -1,11 +1,11 @@
 package dev.fhtw.oode.weatherapp.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import dev.fhtw.oode.weatherapp.model.Location;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import dev.fhtw.oode.weatherapp.model.Location;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -29,10 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 

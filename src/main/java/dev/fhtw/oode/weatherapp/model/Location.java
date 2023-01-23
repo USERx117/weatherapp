@@ -2,6 +2,7 @@ package dev.fhtw.oode.weatherapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties({"type", "name", "number", "postal_code", "street", "confidence", "region", "region_code", "county", "locality", "neighbourhood", "country", "country_code", "continent"})
 
@@ -34,7 +35,4 @@ public class Location {
         this.administrative_area = administrative_area; }
     String administrative_area;
 
-    public Location() {
-    }
 }
-
