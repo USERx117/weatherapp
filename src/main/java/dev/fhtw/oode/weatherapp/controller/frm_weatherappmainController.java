@@ -1,8 +1,10 @@
-package dev.fhtw.oode.weatherapp;
+package dev.fhtw.oode.weatherapp.controller;
 
+import dev.fhtw.oode.weatherapp.WeatherApplication;
 import dev.fhtw.oode.weatherapp.client.OpenWeatherClient;
 import dev.fhtw.oode.weatherapp.client.OpenWeatherConfigReader;
 import dev.fhtw.oode.weatherapp.model.WeatherEntity;
+import dev.fhtw.oode.weatherapp.model.WeatherReportEntity;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,13 +27,16 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class frm_weatherappmainController implements Initializable{
 
     private WeatherEntity weatherData;
+    private List<String> reportData;
 
     @FXML
     private Label lbl_currTemp;
@@ -124,6 +129,21 @@ public class frm_weatherappmainController implements Initializable{
         this.lbl_currPressure.setText(this.weatherData.getPressure()+"mbar");
         this.lbl_currHigh.setText(bigDecimal(this.weatherData.getTemp_max())+"°C");
         this.lbl_currLow.setText(bigDecimal(this.weatherData.getTemp_min())+"°C");
+        this.lbl_foreD1High.setText(bigDecimal(this.reportData.get(1))+"°C");
+        this.lbl_foreD1Low.setText(bigDecimal(this.reportData.get(0))+"°C");
+        //LocalDateTime current = LocalDateTime.parse(this.weatherData.getDate());
+        //this.lbl_foreDateDayName1.setText(String.valueOf(LocalDateTime.from(current.toInstant(null)).plusDays(1)));
+        this.lbl_foreD2High.setText(bigDecimal(this.reportData.get(3))+"°C");
+        this.lbl_foreD2Low.setText(bigDecimal(this.reportData.get(2))+"°C");
+        this.lbl_foreD3High.setText(bigDecimal(this.reportData.get(5))+"°C");
+        this.lbl_foreD3Low.setText(bigDecimal(this.reportData.get(4))+"°C");
+        this.lbl_foreD4High.setText(bigDecimal(this.reportData.get(7))+"°C");
+        this.lbl_foreD4Low.setText(bigDecimal(this.reportData.get(6))+"°C");
+        this.lbl_foreD5High.setText(bigDecimal(this.reportData.get(9))+"°C");
+        this.lbl_foreD5Low.setText(bigDecimal(this.reportData.get(8))+"°C");
+        //this.lbl_foreD1Low.setText(bigDecimal(this.reportData.getForecast().get(0).getMinAndMaxTemps().get(0)));
+        //System.out.println(weatherData);
+        //System.out.println(reportData);
     }
 
     private void fetchWeatherData() {
@@ -137,6 +157,9 @@ public class frm_weatherappmainController implements Initializable{
                     prop.getProperty("openweather_longitude"),
                     prop.getProperty("openweather_latitude"));
             this.weatherData = owc.connect().getCurrent();
+            this.reportData = owc.connect().getForecastMinAndMaxTemperatures();
+            //this.reportData = owc.connect().getForecastMinAndMaxTemperatures();
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -151,6 +174,13 @@ public class frm_weatherappmainController implements Initializable{
     private String dateConvert(String currentDate) {
         long converted = Long.parseLong(currentDate+"000");
         DateFormat obj = new SimpleDateFormat("E dd.MM.yyyy");
+        Date res = new Date(converted);
+        return obj.format(res);
+    }
+
+    private String dateConvertSmall(String currentDate) {
+        long converted = Long.parseLong(currentDate+"000");
+        DateFormat obj = new SimpleDateFormat("E dd.MM");
         Date res = new Date(converted);
         return obj.format(res);
     }

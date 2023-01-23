@@ -1,17 +1,12 @@
-package dev.fhtw.oode.weatherapp.configurate;
+package dev.fhtw.oode.weatherapp.controller;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import dev.fhtw.oode.weatherapp.client.OpenWeatherClient;
 import dev.fhtw.oode.weatherapp.client.OpenWeatherConfigReader;
-import dev.fhtw.oode.weatherapp.service.ConfigUpdater;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.FileWriter;

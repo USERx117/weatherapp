@@ -5,11 +5,12 @@ module dev.fhtw.oode.weatherapp {
     requires org.apache.commons.lang3;
     requires de.jensd.fx.glyphs.fontawesome;
     requires com.fasterxml.jackson.databind;
-    requires android.json;
+    requires javafx.graphics;
+    requires org.json;
 
 
     opens dev.fhtw.oode.weatherapp to javafx.fxml;
     exports dev.fhtw.oode.weatherapp;
-    exports dev.fhtw.oode.weatherapp.configurate;
-    opens dev.fhtw.oode.weatherapp.configurate to javafx.fxml;
+    exports dev.fhtw.oode.weatherapp.controller;
+    opens dev.fhtw.oode.weatherapp.controller to javafx.fxml;
 }

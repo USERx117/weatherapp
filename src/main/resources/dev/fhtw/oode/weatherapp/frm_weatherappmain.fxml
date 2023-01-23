@@ -3,132 +3,138 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fhtw.oode.weatherapp.frm_weatherappmainController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fhtw.oode.weatherapp.controller.frm_weatherappmainController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0">
-         <center>
-            <HBox alignment="CENTER" prefHeight="181.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <ImageView fx:id="IV_Location" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </ImageView>
-                        <TextArea fx:id="ta_Location" editable="false" prefHeight="200.0" prefWidth="200.0">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </TextArea>
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="234.0" prefWidth="240.0">
-                     <children>
-                        <ImageView fx:id="IV_WeatherNow" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </ImageView>
-                        <TextArea fx:id="ta_WeatherNow" prefHeight="200.0" prefWidth="200.0" />
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="225.0" prefWidth="220.0">
-                     <children>
-                        <ImageView fx:id="IV_WeatherForecast" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </ImageView>
-                        <TextArea fx:id="ta_WeatherForecast" prefHeight="200.0" prefWidth="200.0" />
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-               </children>
-               <BorderPane.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
+      <GridPane alignment="CENTER" prefHeight="400.0" prefWidth="780.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.5714111328125" minWidth="10.0" prefWidth="170.857177734375" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.4285888671875" minWidth="10.0" prefWidth="84.85711669921875" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.2857666015625" minWidth="10.0" prefWidth="92.14290727887834" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.2857666015625" minWidth="0.0" prefWidth="102.99998256138394" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.28569684709822" minWidth="10.0" prefWidth="102.00005667550221" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.14280482700894" minWidth="10.0" prefWidth="94.71428571428567" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.14280482700894" minWidth="10.0" prefWidth="100.28569684709817" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.71428571428567" minWidth="10.0" prefWidth="65.4285888671875" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="73.57144655500139" minHeight="10.0" prefHeight="73.57144655500139" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="84.85714830671037" minHeight="10.0" prefHeight="57.71428244454519" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="82.57141985212054" minHeight="10.0" prefHeight="58.28570556640625" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="76.14289202008928" minHeight="10.0" prefHeight="62.28571864536832" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="102.28573826381137" minHeight="7.5714656284877435" prefHeight="62.28570992606029" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="149.7143031529018" minHeight="10.0" prefHeight="72.71428571428572" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="77.85712541852678" minHeight="3.428553989955333" prefHeight="14.428571428571445" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="bt_Configure" mnemonicParsing="false" onAction="#bt_ConfigureButtonClicked" onMouseClicked="#bt_Configure_Clicked" prefHeight="38.0" prefWidth="141.0" text="Configure" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="5">
                <padding>
-                  <Insets left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
-            </HBox>
-         </center>
-         <bottom>
-            <VBox alignment="CENTER_RIGHT" prefHeight="63.0" prefWidth="740.0" BorderPane.alignment="CENTER_RIGHT">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="780.0">
-                     <children>
-                        <Button fx:id="bt_Configure" mnemonicParsing="false" onAction="#bt_ConfigureButtonClicked" onMouseClicked="#bt_Configure_Clicked" text="Configure">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </Button>
-                        <Button fx:id="bt_Update" mnemonicParsing="false" onAction="#bt_UpdateButtonClicked" onMouseClicked="#bt_Update_Clicked" text="Update">
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </Button>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets right="5.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <Label fx:id="lbl_Log" alignment="CENTER_RIGHT">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="5.0" />
-                     </VBox.margin>
-                     <padding>
-                        <Insets left="10.0" right="5.0" />
-                     </padding>
-                  </Label>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <BorderPane.margin>
-                  <Insets left="40.0" right="40.0" />
-               </BorderPane.margin>
+            </Button>
+            <Button fx:id="bt_Update" alignment="CENTER" mnemonicParsing="false" onAction="#bt_UpdateButtonClicked" onMouseClicked="#bt_Update_Clicked" prefHeight="38.0" prefWidth="147.0" text="Update" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="5">
                <padding>
-                  <Insets left="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
-            </VBox>
-         </bottom>
-      </BorderPane>
+            </Button>
+            <Label fx:id="lbl_currTemp" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="69.0" prefWidth="128.0" text="Temp" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <font>
+                  <Font size="47.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_currPressure" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="122.0" text="Pressure" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_currHigh" layoutX="91.0" layoutY="195.0" prefHeight="30.0" prefWidth="61.0" text="H" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_currLow" layoutX="81.0" layoutY="195.0" prefHeight="30.0" prefWidth="60.0" text="L" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_currLocation" alignment="CENTER" prefHeight="38.0" prefWidth="142.0" text="location" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_currDate" alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="41.0" prefHeight="17.0" prefWidth="107.0" text="date" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_foreDateDayName1" alignment="CENTER" prefHeight="17.0" prefWidth="83.0" text="day_1" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_foreDateDayName2" alignment="CENTER" layoutX="244.0" layoutY="153.0" prefHeight="17.0" prefWidth="83.0" text="day_2" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_foreDateDayName3" alignment="CENTER" layoutX="301.0" layoutY="153.0" prefHeight="17.0" prefWidth="83.0" text="day_3" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_foreDateDayName4" alignment="CENTER" layoutX="427.0" layoutY="153.0" prefHeight="17.0" prefWidth="83.0" text="day_4" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_foreDateDayName5" alignment="CENTER" layoutX="527.0" layoutY="121.0" prefHeight="17.0" prefWidth="83.0" text="day_5" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_foreD1High" alignment="CENTER" layoutX="215.0" layoutY="153.0" prefHeight="17.0" prefWidth="83.0" text="day_1_H" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD1Low" alignment="CENTER" contentDisplay="RIGHT" layoutX="205.0" layoutY="201.0" prefHeight="17.0" prefWidth="83.0" text="day_1_L" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD2High" alignment="CENTER" layoutX="257.0" layoutY="164.0" prefHeight="17.0" prefWidth="83.0" text="day_2_H" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD2Low" alignment="CENTER" contentDisplay="RIGHT" layoutX="257.0" layoutY="231.0" prefHeight="17.0" prefWidth="83.0" text="day_2_L" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD3High" alignment="CENTER" layoutX="344.0" layoutY="164.0" prefHeight="17.0" prefWidth="83.0" text="day_3_H" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD3Low" alignment="CENTER" contentDisplay="RIGHT" layoutX="344.0" layoutY="231.0" prefHeight="17.0" prefWidth="83.0" text="day_3_L" GridPane.columnIndex="4" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD4High" alignment="CENTER" layoutX="443.0" layoutY="164.0" prefHeight="17.0" prefWidth="83.0" text="day_4_H" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD4Low" alignment="CENTER" contentDisplay="RIGHT" layoutX="443.0" layoutY="164.0" prefHeight="17.0" prefWidth="83.0" text="day_4_L" GridPane.columnIndex="5" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD5High" alignment="CENTER" layoutX="541.0" layoutY="164.0" prefHeight="17.0" prefWidth="83.0" text="day_5_H" GridPane.columnIndex="6" GridPane.rowIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_foreD5Low" alignment="CENTER" contentDisplay="RIGHT" layoutX="541.0" layoutY="164.0" prefHeight="17.0" prefWidth="83.0" text="day_5_L" GridPane.columnIndex="6" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_currHigh1" alignment="CENTER" contentDisplay="RIGHT" layoutX="75.0" layoutY="157.0" prefHeight="30.0" prefWidth="53.0" text="High" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+            <Label fx:id="lbl_currHigh11" alignment="CENTER" contentDisplay="RIGHT" layoutX="10.0" layoutY="157.0" prefHeight="30.0" prefWidth="53.0" text="Low" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+            <ImageView fitHeight="89.0" fitWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowSpan="2" GridPane.valignment="TOP">
+               <image>
+                  <Image url="@logo2.png" />
+               </image>
+            </ImageView>
+            <Line endX="-100.82839965820312" endY="503.86431884765625" startX="-100.82592010498047" startY="250.14952087402344" stroke="#ababab" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
