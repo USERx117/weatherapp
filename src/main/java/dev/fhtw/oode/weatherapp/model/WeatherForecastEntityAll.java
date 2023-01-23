@@ -2,8 +2,19 @@ package dev.fhtw.oode.weatherapp.model;
 
 public class WeatherForecastEntityAll {
 
+    /**
+     * current date of forecast entity
+     */
     private String date;
+
+    /**
+     * current min temperature
+     */
     private String temp_min;
+
+    /**
+     * current max temperature
+     */
     private String temp_max;
 
     public WeatherForecastEntityAll(String date, String temp_min, String temp_max) {
