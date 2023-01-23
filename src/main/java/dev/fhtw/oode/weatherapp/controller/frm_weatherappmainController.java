@@ -126,6 +126,7 @@ public class frm_weatherappmainController implements Initializable{
         fetchWeatherData();
 
         Configuration curr_config = new Configuration();
+        curr_config = Configuration.get_configuration();
         String unit_string = "C";
 
         if(curr_config.getUnits().equals("imperial"))
