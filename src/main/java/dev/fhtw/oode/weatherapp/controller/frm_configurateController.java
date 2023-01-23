@@ -153,12 +153,18 @@ public class frm_configurateController {
     @FXML
     void bt_selectLocationButtonClicked(MouseEvent event) {
         String location = lv_Locations.getSelectionModel().getSelectedItem();
-        Double new_lat = Double.parseDouble(location.substring(location.indexOf("Lat:") + 4, location.indexOf("|", location.indexOf("Lat:"))));
-        Double new_lng = Double.parseDouble(location.substring(location.indexOf("Lng:") + 4, location.length()));
 
-        Configuration update_conf = new Configuration();
-        update_conf.update_config("openweather_latitude", String.valueOf(new_lat));
-        update_conf.update_config("openweather_longitude", String.valueOf(new_lng));
+        if(location != null) {
+            Double new_lat = Double.parseDouble(location.substring(location.indexOf("Lat:") + 4, location.indexOf("|", location.indexOf("Lat:"))));
+            Double new_lng = Double.parseDouble(location.substring(location.indexOf("Lng:") + 4, location.length()));
+
+            Configuration update_conf = new Configuration();
+            update_conf.update_config("openweather_latitude", String.valueOf(new_lat));
+            update_conf.update_config("openweather_longitude", String.valueOf(new_lng));
+        } else
+        {
+            lb_locsetup_log.setText("No Location selected");
+        }
     }
 
     /**
