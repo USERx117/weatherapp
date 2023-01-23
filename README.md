@@ -1,4 +1,4 @@
-# weatherapp
+# WeatherX
 
 The project will be realized with JDK 17, JavaFX and OpenWeather API. It will include all features and technologies, that we discussed in this course, including:
 • Inheritance, overriding, multiple constructors
