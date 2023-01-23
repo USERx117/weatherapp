@@ -3,6 +3,7 @@ package dev.fhtw.oode.weatherapp.controller;
 import dev.fhtw.oode.weatherapp.WeatherApplication;
 import dev.fhtw.oode.weatherapp.client.OpenWeatherClient;
 import dev.fhtw.oode.weatherapp.client.OpenWeatherConfigReader;
+import dev.fhtw.oode.weatherapp.model.Configuration;
 import dev.fhtw.oode.weatherapp.model.WeatherEntity;
 import dev.fhtw.oode.weatherapp.model.WeatherReportEntity;
 import javafx.application.Application;
@@ -123,24 +124,33 @@ public class frm_weatherappmainController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fetchWeatherData();
-        this.lbl_currTemp.setText(bigDecimal(this.weatherData.getTemperature())+"°C");
+
+        Configuration curr_config = new Configuration();
+        String unit_string = "C";
+
+        if(curr_config.getUnits().equals("imperial"))
+        {
+            unit_string = "F";
+        }
+
+        this.lbl_currTemp.setText(bigDecimal(this.weatherData.getTemperature())+"°" + unit_string);
         this.lbl_currDate.setText(dateConvert(this.weatherData.getDate()));
         this.lbl_currLocation.setText(this.weatherData.getLocation());
         this.lbl_currPressure.setText(this.weatherData.getPressure()+"mbar");
-        this.lbl_currHigh.setText(bigDecimal(this.weatherData.getTemp_max())+"°C");
-        this.lbl_currLow.setText(bigDecimal(this.weatherData.getTemp_min())+"°C");
-        this.lbl_foreD1High.setText(bigDecimal(this.reportData.get(1))+"°C");
-        this.lbl_foreD1Low.setText(bigDecimal(this.reportData.get(0))+"°C");
+        this.lbl_currHigh.setText(bigDecimal(this.weatherData.getTemp_max())+"°" + unit_string);
+        this.lbl_currLow.setText(bigDecimal(this.weatherData.getTemp_min())+"°" + unit_string);
+        this.lbl_foreD1High.setText(bigDecimal(this.reportData.get(1))+"°" + unit_string);
+        this.lbl_foreD1Low.setText(bigDecimal(this.reportData.get(0))+"°" + unit_string);
         //LocalDateTime current = LocalDateTime.parse(this.weatherData.getDate());
         //this.lbl_foreDateDayName1.setText(String.valueOf(LocalDateTime.from(current.toInstant(null)).plusDays(1)));
-        this.lbl_foreD2High.setText(bigDecimal(this.reportData.get(3))+"°C");
-        this.lbl_foreD2Low.setText(bigDecimal(this.reportData.get(2))+"°C");
-        this.lbl_foreD3High.setText(bigDecimal(this.reportData.get(5))+"°C");
-        this.lbl_foreD3Low.setText(bigDecimal(this.reportData.get(4))+"°C");
-        this.lbl_foreD4High.setText(bigDecimal(this.reportData.get(7))+"°C");
-        this.lbl_foreD4Low.setText(bigDecimal(this.reportData.get(6))+"°C");
-        this.lbl_foreD5High.setText(bigDecimal(this.reportData.get(9))+"°C");
-        this.lbl_foreD5Low.setText(bigDecimal(this.reportData.get(8))+"°C");
+        this.lbl_foreD2High.setText(bigDecimal(this.reportData.get(3))+"°" + unit_string);
+        this.lbl_foreD2Low.setText(bigDecimal(this.reportData.get(2))+"°" + unit_string);
+        this.lbl_foreD3High.setText(bigDecimal(this.reportData.get(5))+"°" + unit_string);
+        this.lbl_foreD3Low.setText(bigDecimal(this.reportData.get(4))+"°" + unit_string);
+        this.lbl_foreD4High.setText(bigDecimal(this.reportData.get(7))+"°" + unit_string);
+        this.lbl_foreD4Low.setText(bigDecimal(this.reportData.get(6))+"°" + unit_string);
+        this.lbl_foreD5High.setText(bigDecimal(this.reportData.get(9))+"°" + unit_string);
+        this.lbl_foreD5Low.setText(bigDecimal(this.reportData.get(8))+"°" + unit_string);
         //this.lbl_foreD1Low.setText(bigDecimal(this.reportData.getForecast().get(0).getMinAndMaxTemps().get(0)));
         //System.out.println(weatherData);
         //System.out.println(reportData);
