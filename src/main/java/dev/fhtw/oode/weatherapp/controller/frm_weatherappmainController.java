@@ -101,7 +101,7 @@ public class frm_weatherappmainController implements Initializable{
         try {
             Stage stage_location = new Stage();
             FXMLLoader locationscene_fxmlLoader = new FXMLLoader(WeatherApplication.class.getResource("frm_configurate.fxml"));
-            Scene scene_location = new Scene(locationscene_fxmlLoader.load(), 800,400);
+            Scene scene_location = new Scene(locationscene_fxmlLoader.load(), 800,600);
             stage_location.setTitle("Location Finder");
             stage_location.setScene(scene_location);
             stage_location.show();
