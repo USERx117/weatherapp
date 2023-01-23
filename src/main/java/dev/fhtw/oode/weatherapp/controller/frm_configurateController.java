@@ -1,5 +1,6 @@
 package dev.fhtw.oode.weatherapp.controller;
 
+import dev.fhtw.oode.weatherapp.model.Configuration;
 import dev.fhtw.oode.weatherapp.model.Location;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -25,6 +26,7 @@ import java.io.IOException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.ObjectInputFilter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,11 +37,23 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class frm_configurateController {
 
-    @FXML
-    private Button bt_LoadConfig;
+    public void initialize()
+    {
+        Configuration new_config = Configuration.get_configuration();
 
-    @FXML
-    private Button bt_SaveConfig;
+        tb_locationAPIKey.setText(new_config.getPositionstack_api_key());
+        tb_weatherAPIKey.setText(new_config.getOpenweather_api_key());
+        tb_uprate_mm.setText(String.valueOf(new_config.getUpdate_interval()));
+
+        if(new_config.getUnits().equals("imperial"))
+        {
+            rb_imperialunits.setSelected(true);
+        } else
+        {
+            rb_metricunits.setSelected(true);
+        }
+
+    }
 
     @FXML
     private Button bt_searchLocation;
@@ -78,29 +92,13 @@ public class frm_configurateController {
     private TextField tb_locationAPIKey;
 
     @FXML
-    private TextField tb_uprate_hh;
-
-    @FXML
     private TextField tb_uprate_mm;
-
-    @FXML
-    private TextField tb_uprate_ss;
 
     @FXML
     private TextField tb_weatherAPIKey;
 
     @FXML
     private TextField tf_serachLocation;
-
-    @FXML
-    void bt_LoadConfigButtonClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void bt_SaveConfigButtonClicked(MouseEvent event) {
-
-    }
 
     @FXML
     void bt_searchLocationButtonClicked(MouseEvent event) {
@@ -124,24 +122,27 @@ public class frm_configurateController {
         Double new_lat = Double.parseDouble(location.substring(location.indexOf("Lat:") + 4, location.indexOf("|", location.indexOf("Lat:"))));
         Double new_lng = Double.parseDouble(location.substring(location.indexOf("Lng:") + 4, location.length()));
 
-        System.out.println("Selected Lat: " + new_lat);
-        System.out.println("Selected Lng: " + new_lng);
-
+        Configuration update_conf = new Configuration();
+        update_conf.update_config("openweather_latitude", String.valueOf(new_lat));
+        update_conf.update_config("openweather_longitude", String.valueOf(new_lng));
     }
 
     @FXML
     void bt_update_uprateButtonClicked(MouseEvent event) {
-
+        Configuration update_conf = new Configuration();
+        update_conf.update_config("openweather_updateInterval", tb_uprate_mm.getText());
     }
 
     @FXML
     void bt_updatelocationAPIKey_ButtonClicked(MouseEvent event) {
-
+        Configuration update_conf = new Configuration();
+        update_conf.update_config("positionstack_api_key", tb_locationAPIKey.getText());
     }
 
     @FXML
     void bt_updateweatherAPIKey_ButtonClicked(MouseEvent event) {
-
+        Configuration update_conf = new Configuration();
+        update_conf.update_config("openweather_api_key", tb_weatherAPIKey.getText());
     }
 
     @FXML
@@ -155,27 +156,20 @@ public class frm_configurateController {
     }
 
     @FXML
-    void rb_imperialunits_Action(MouseEvent event) {
+    void rb_imperialunits_Action(ActionEvent event) {
 
+        Configuration update_conf = new Configuration();
+        update_conf.update_config("openweather_units", "imperial");
     }
 
     @FXML
-    void rb_metricunits_Action(MouseEvent event) {
-
-    }
-
-    @FXML
-    void tb_uprate_hh_Action(ActionEvent event) {
-
+    void rb_metricunits_Action(ActionEvent event) {
+        Configuration update_conf = new Configuration();
+        update_conf.update_config("openweather_units", "metric");
     }
 
     @FXML
     void tb_uprate_mm_Action(ActionEvent event) {
-
-    }
-
-    @FXML
-    void tb_uprate_ss_Action(ActionEvent event) {
 
     }
 
@@ -245,10 +239,14 @@ public class frm_configurateController {
             String bufferString = "";
 
             try {
+
+                Configuration curr_config = new Configuration();
+                curr_config = Configuration.get_configuration();
+
                 StringBuilder request_string = new StringBuilder();
                 request_string.append("http://api.positionstack.com/v1/forward?access_key=");
-                //Key HERE
-                request_string.append("0fe88b60549294f08f0a9402b26b04ef&query=");
+                request_string.append(curr_config.getPositionstack_api_key());
+                request_string.append("&query=");
                 request_string.append(searchLocation);
                 request_string.append("&output=json");
 

@@ -1,6 +1,7 @@
 package dev.fhtw.oode.weatherapp.model;
 
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
@@ -11,7 +12,11 @@ public class Configuration {
     private double longitude;
     private double latitude;
     private double update_interval;
-    private boolean units;
+    private String units;
+
+    public String getUnits() {
+        return units;
+    }
 
     public Configuration() {
     }
@@ -56,56 +61,75 @@ public class Configuration {
         this.update_interval = update_interval;
     }
 
-    public boolean isUnits() {
+    public String isUnits() {
         return units;
     }
 
-    public void setUnits(boolean units) {
+    public void setUnits(String units) {
         this.units = units;
     }
 
-    public class get_configuration implements Callable<Configuration>
+    public int update_config(String property_label, String new_prop_value)
     {
-        public Configuration call() throws Exception
+        Configuration update_config = new Configuration();
+
+        try {
+            String configFilePath = "src/app.config";
+            FileInputStream propsInput = new FileInputStream(configFilePath);
+            Properties prop = new Properties();
+            prop.load(propsInput);
+
+            prop.setProperty(property_label, new_prop_value);
+            prop.store(new FileWriter(configFilePath), "");
+
+        } catch (Exception e)
         {
-                Configuration load_config = new Configuration();
-
-                try {
-                    String configFilePath = "src/main/resources/application.properties";
-                    FileInputStream propsInput = new FileInputStream(configFilePath);
-                    Properties prop = new Properties();
-                    prop.load(propsInput);
-
-                    /**
-                     * Checking if the value is in the properties file - if not its is not going to be added to the Configuration
-                     * class that is returned;
-                     */
-                    if(!prop.getProperty("openweather_api_key").isBlank()){
-                        load_config.setOpenweather_api_key(prop.getProperty("openweather_api_key"));
-                    }
-                    if(!prop.getProperty("positionstack_api_key").isBlank()) {
-                        load_config.setPositionstack_api_key(prop.getProperty("positionstack_api_key"));
-                    }
-                    if(!prop.getProperty("openweather_longitude").isBlank()) {
-                        load_config.setLongitude(Double.parseDouble(prop.getProperty("openweather_longitude")));
-                    }
-                    if(!prop.getProperty("openweather_latitude").isBlank()) {
-                        load_config.setLatitude(Double.parseDouble(prop.getProperty("openweather_latitude")));
-                    }
-                    if(!prop.getProperty("openweather_units").isBlank()) {
-                        load_config.setUpdate_interval(Double.parseDouble(prop.getProperty("openweather_units")));
-                    }
-                    if(!prop.getProperty("openweather_units").isBlank()) {
-                        load_config.setUnits(Boolean.parseBoolean(prop.getProperty("openweather_units")));
-                    }
-
-                } catch (Exception e)
-                {
-
-                }
-
-                return load_config;
-            }
-
+            return 1;
         }
+
+        return 0;
     }
+
+
+    public static Configuration get_configuration()
+    {
+        Configuration load_config = new Configuration();
+
+        try {
+        String configFilePath = "src/app.config";
+        FileInputStream propsInput = new FileInputStream(configFilePath);
+        Properties prop = new Properties();
+        prop.load(propsInput);
+
+        /**
+         * Checking if the value is in the properties file - if not its is not going to be added to the Configuration
+         * class that is returned;
+         */
+        if(prop.getProperty("openweather_api_key") != null){
+            String test = prop.getProperty("openweather_api_key");
+            load_config.setOpenweather_api_key(prop.getProperty("openweather_api_key"));
+        }
+        if(prop.getProperty("positionstack_api_key") != null) {
+            load_config.setPositionstack_api_key(prop.getProperty("positionstack_api_key"));
+        }
+        if(prop.getProperty("openweather_longitude") != null) {
+            load_config.setLongitude(Double.parseDouble(prop.getProperty("openweather_longitude")));
+        }
+        if(prop.getProperty("openweather_latitude") != null) {
+            load_config.setLatitude(Double.parseDouble(prop.getProperty("openweather_latitude")));
+        }
+        if(prop.getProperty("openweather_updateInterval") != null) {
+            load_config.setUpdate_interval(Double.parseDouble(prop.getProperty("openweather_updateInterval")));
+        }
+        if(prop.getProperty("openweather_units") != null) {
+            load_config.setUnits(prop.getProperty("openweather_units"));
+        }
+
+    } catch (Exception e)
+        {
+            return null;
+        }
+        return load_config;
+    }
+
+}
