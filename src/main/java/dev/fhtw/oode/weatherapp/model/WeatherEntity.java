@@ -1,18 +1,43 @@
 package dev.fhtw.oode.weatherapp.model;
 
 
-import java.util.Date;
 import java.util.List;
 
 public class WeatherEntity {
 
+    /**
+     * current temperature of entity
+     */
     private String temperature;
+
+    /**
+     * current location
+     */
     private String location;
+
+    /**
+     * current pressure measured in mbar
+     */
     private String pressure;
+
+    /**
+     * min temperature
+     */
     private String temp_min;
+
+    /**
+     * max temperature
+     */
     private String temp_max;
+
+    /**
+     * current date
+     */
     private String date;
 
+    /**
+     * List of min and max temperatures
+     */
     private List<String> minAndMaxTemps;
 
     public WeatherEntity(List<String> minAndMaxTemps) {
@@ -26,7 +51,6 @@ public class WeatherEntity {
         this.temp_min = temp_min;
         this.temp_max = temp_max;
         this.date = date;
-        //this.minAndMaxTemps = getMinAndMaxTemps();
     }
 
     public WeatherEntity() {}

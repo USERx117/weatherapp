@@ -46,6 +46,10 @@ public class frm_configurateController {
     @FXML
     private Label lbl_updateInterval;
 
+    /**
+     * When the button "Save" is clicked in the configuration window, everything from the textfields will be stored as a property
+     * @param event c
+     */
     @FXML
     void btn_saveButtonClicked(ActionEvent event) {
         String unit = rbtn_metric.isSelected() ? "metric" : "imperial";
