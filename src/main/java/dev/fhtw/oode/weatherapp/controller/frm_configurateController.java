@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.ObjectInputFilter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,14 +36,26 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class frm_configurateController {
 
+
+    /***
+     * The form is loaded and populated with the values found in the config file (app.config in src)
+      */
     public void initialize()
     {
+        /***
+         * A new instance of the Configuration class is instantitated to hold the values obtained from the config file
+         * Afterwards the form textfields are populated with the values;
+         */
         Configuration new_config = Configuration.get_configuration();
 
         tb_locationAPIKey.setText(new_config.getPositionstack_api_key());
         tb_weatherAPIKey.setText(new_config.getOpenweather_api_key());
         tb_uprate_mm.setText(String.valueOf(new_config.getUpdate_interval()));
 
+        /***
+         * if the unit found is imperial the respecitve radio button is set.
+         * In any other case the unit is set to metric;
+         */
         if(new_config.getUnits().equals("imperial"))
         {
             rb_imperialunits.setSelected(true);
@@ -103,21 +114,44 @@ public class frm_configurateController {
     @FXML
     void bt_searchLocationButtonClicked(MouseEvent event) {
 
-        try {
-            ObservableList<String> ob_list = FXCollections.observableArrayList();
-            LocationService loc_serv = new LocationService(tf_serachLocation, lv_Locations);
-            loc_serv.setSerachString(tf_serachLocation.getText().toString());
-            loc_serv.start();
+        /***
+         * The Location-Search box is checked for values before the serach for
+         * locations is started. Is the box empty a status update is issued via
+         * the lable Log line in the config window
+         */
 
-        } catch (Exception e) {
+        if(!tf_serachLocation.getText().isBlank()) {
+            try {
+                /***
+                 * A new instance of LocationService is created and the Textbox tf_serachLocation
+                 * and ListView<String> lv_Locations are handed over as paramaters. The LocationSerice
+                 * class extends the Service<> Class and thus runs the operations required in a seperate
+                 * thread to the GUI. Thus the object the need to be manipulated, i.e. the tf_serachLocation
+                 * to obtain the Location Search String and lv_Locations to load the found Locations in.
+                 * The LocationService is started to load the found locations in the listView in the form.
+                 * The SerachString is set for the instance to be accessible for proteced methods.
+                 */
+                LocationService loc_serv = new LocationService(tf_serachLocation, lv_Locations);
+                loc_serv.setSerachString(tf_serachLocation.getText().toString());
+                loc_serv.start();
 
+            } catch (Exception e) {
+
+            }
+        } else {
+            lb_locsetup_log.setText("Please enter a city/location");
         }
-
     }
 
+    /***
+     * The bt_selectLocationButtonClicked function updates the selected location lat and long in the
+     * config file app.configuration. It segregates the Strings from the ObservableList for Lat and Long
+     * Values and forwards it to an instance of the Configuraiton class to update the values in the
+     * config file.
+     * @param event
+     */
     @FXML
     void bt_selectLocationButtonClicked(MouseEvent event) {
-
         String location = lv_Locations.getSelectionModel().getSelectedItem();
         Double new_lat = Double.parseDouble(location.substring(location.indexOf("Lat:") + 4, location.indexOf("|", location.indexOf("Lat:"))));
         Double new_lng = Double.parseDouble(location.substring(location.indexOf("Lng:") + 4, location.length()));
@@ -127,18 +161,33 @@ public class frm_configurateController {
         update_conf.update_config("openweather_longitude", String.valueOf(new_lng));
     }
 
+    /**
+     * bt_update_uprateButtonClicked creates an instance of the Configuration class to update
+     * the update interval value in the config file.
+     * @param event
+     */
     @FXML
     void bt_update_uprateButtonClicked(MouseEvent event) {
         Configuration update_conf = new Configuration();
         update_conf.update_config("openweather_updateInterval", tb_uprate_mm.getText());
     }
 
+    /***
+     * bt_updatelocationAPIKey_ButtonClicked creates an instance of the Configuration class to update
+     * the update positionstack_api_key value in the config file.
+     * @param event
+     */
     @FXML
     void bt_updatelocationAPIKey_ButtonClicked(MouseEvent event) {
         Configuration update_conf = new Configuration();
         update_conf.update_config("positionstack_api_key", tb_locationAPIKey.getText());
     }
 
+    /***
+     * bt_updateweatherAPIKey_ButtonClicked creates an instance of the Configuration class to update
+     * the update openweather_api_key value in the config file.
+     * @param event
+     */
     @FXML
     void bt_updateweatherAPIKey_ButtonClicked(MouseEvent event) {
         Configuration update_conf = new Configuration();
@@ -155,6 +204,11 @@ public class frm_configurateController {
 
     }
 
+    /***
+     * rb_imperialunits_Action creates an instance of the Configuration class to update
+     * the update openweather_units value in the config file for imperial units
+     * @param event
+     */
     @FXML
     void rb_imperialunits_Action(ActionEvent event) {
 
@@ -162,6 +216,11 @@ public class frm_configurateController {
         update_conf.update_config("openweather_units", "imperial");
     }
 
+    /***
+     * rb_metricunits_Action creates an instance of the Configuration class to update
+     * the update openweather_units value in the config file for metric units
+     * @param event
+     */
     @FXML
     void rb_metricunits_Action(ActionEvent event) {
         Configuration update_conf = new Configuration();
@@ -173,6 +232,10 @@ public class frm_configurateController {
 
     }
 
+    /***
+     * The LocationService provides the basic interface for the PositionStack API.
+     * The class holds the only value searchString to perform a task in a single background thread
+     */
     private class LocationService extends Service<ObservableList<String>> {
         private String serachString;
 
@@ -184,6 +247,11 @@ public class frm_configurateController {
             this.serachString = serachString;
         }
 
+        /***
+         * LocationService provides the basic structure to
+         * @param tb_searchString
+         * @param lv_Locations
+         */
         private LocationService(TextField tb_searchString, ListView<String> lv_Locations)
         {
             setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -229,14 +297,13 @@ public class frm_configurateController {
             } catch (Exception e) {
                 return null;
             }
-            ;
 
             return locob_list;
         }
 
         public String getLocationsJsonString(String searchLocation) throws IOException {
             StringBuilder API_return = new StringBuilder();
-            String bufferString = "";
+            String bufferString;
 
             try {
 
