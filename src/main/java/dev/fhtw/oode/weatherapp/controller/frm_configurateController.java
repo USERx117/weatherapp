@@ -248,9 +248,9 @@ public class frm_configurateController {
         }
 
         /***
-         * LocationService provides the basic structure to
-         * @param tb_searchString
-         * @param lv_Locations
+         * LocationService provides the basic structure to update the ListView<String> of locations in the config form
+         * @param tb_searchString the textfield from which the to serach for location string is taken
+         * @param lv_Locations the ListView the found location results are populated with
          */
         private LocationService(TextField tb_searchString, ListView<String> lv_Locations)
         {
@@ -262,6 +262,15 @@ public class frm_configurateController {
             });
         }
 
+        /***
+         * The task run in a seperate thread in order to allow the GUI to work unobstructed
+         * The task instantiates the APILocationService class to fetch a GET-Request to the
+         * location database API. The results are safed in an OberservableList to be used
+         * to populate the ListView in the config frm.
+         * @return The function directly populates the ListView in the config frm but
+         * returns an ObservableList to be further used in future features, i.e. showing
+         * temperatures of multiple cites in alternating intervals.
+         */
         @Override
         protected Task<ObservableList<String>> createTask()
         {
@@ -281,8 +290,22 @@ public class frm_configurateController {
     }
 
 
+    /***
+     * The APILocationService class provides the direct interface for the PositionStack API
+     *
+     */
     public static class APILocationService {
 
+        /***
+         * getObservabelLocationList return an ObservableList from a JSON String obtained from the
+         * Positon Stack API. The funciton creates from the JSON-String a List of the Location class
+         * and matches the found values via the Function mapLocationstoList (i.e. an ObjectMapper).
+         * Afterwards the function creates a List<String> and poplutes it with the values form
+         * the List.
+         * @param serachLocation serachLocation String
+         * @return An ObservabelList of Strings in the format Location Label | Location Administrative Area | Location Latitute | Location Longitue
+         * @throws Exception
+         */
         public ObservableList<String> getObservabelLocationList(String serachLocation) throws Exception {
             List<Location> local_loc_list = new ArrayList<Location>();
             ObservableList<String> locob_list = FXCollections.observableArrayList();
@@ -301,6 +324,13 @@ public class frm_configurateController {
             return locob_list;
         }
 
+        /***
+         * getLocationsJsonString used the LocationSerachString to issue an GET request to the
+         * PositionStack API and uses the API-Key from the application configurfation file.
+         * @param searchLocation the location name to be serach for
+         * @return Returns a JSON in the format of a String
+         * @throws IOException
+         */
         public String getLocationsJsonString(String searchLocation) throws IOException {
             StringBuilder API_return = new StringBuilder();
             String bufferString;
@@ -341,6 +371,13 @@ public class frm_configurateController {
             return null;
         }
 
+        /***
+         * mapLocationstoList takes in a JSON-String obtained from the PositionStack API
+         * and returns a List of Locations;
+         * @param jsonString The JSON-String received from the PositionStack API, i.e. the locations found
+         *                   by the API in the full format;
+         * @return A list of locations in the format of the Location class
+         */
         public List<Location> mapLocationstoList(String jsonString) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
