@@ -87,8 +87,6 @@ public class frm_weatherappmainController implements Initializable {
 
     private long updateIntervalMinutes = 1;
 
-    private long updateIntervalMinutes = 1;
-
 
     /**
      *
