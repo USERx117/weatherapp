@@ -13,4 +13,6 @@ module dev.fhtw.oode.weatherapp {
     exports dev.fhtw.oode.weatherapp;
     exports dev.fhtw.oode.weatherapp.controller;
     opens dev.fhtw.oode.weatherapp.controller to javafx.fxml;
+    exports dev.fhtw.oode.weatherapp.model;
+    opens dev.fhtw.oode.weatherapp.model to javafx.fxml;
 }
