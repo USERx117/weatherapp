@@ -34,7 +34,7 @@ done - Change Weather Update Rate and save to config file -> Update Config Butto
 
 done - Provide Daily Forecast of Weather
 
-not done - Switching between metric and imperial Units in Display through radio buttons in Config Window
+done - Switching between metric and imperial Units in Display through radio buttons in Config Window
 
 
 ## Overkill:
