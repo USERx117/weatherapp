@@ -5,8 +5,19 @@ import java.util.List;
 
 public class WeatherReportEntity {
 
+    /**
+     * current WeatherEntity
+     */
     private WeatherEntity current;
+
+    /**
+     * List of Forecast Entities
+     */
     private ArrayList<WeatherEntity> forecast;
+
+    /**
+     * List of min and max temperatures
+     */
     private List<String> forecastMinAndMaxTemperatures;
 
     public List<String> getForecastMinAndMaxTemperatures() {

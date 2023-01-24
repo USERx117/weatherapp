@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,6 +47,13 @@ public class OpenWeatherClient {
     public WeatherReportEntity connect() {
         return connect(this.latitude, this.longitude);
     }
+
+    /**
+     *  Builds the HTTP-Header for the GET-REQUEST
+     * @param lat Latitude for position, required for HTTP-Header
+     * @param lon Longitude for position, required for HTTP-Header
+     * @return Object of WeatherReportEntity
+     */
     public WeatherReportEntity connect(String lat, String lon){
 
         StringBuilder headerCurrent=new StringBuilder();
@@ -62,10 +68,8 @@ public class OpenWeatherClient {
         headerCurrent.append(" HTTP/1.1\r\n");
         headerCurrent.append("Connection: close\r\n");
         headerCurrent.append("Host: ");
-        headerCurrent.append(this.hostname+"\r\n");
+        headerCurrent.append(this.hostname).append("\r\n");
         headerCurrent.append("\r\n");
-        System.out.println("headerCurrent from connect: ");
-        System.out.println(headerCurrent.toString());
 
         StringBuilder headerForecast=new StringBuilder();
         headerForecast.append("GET /data/2.5/forecast?lat=");
@@ -79,10 +83,9 @@ public class OpenWeatherClient {
         headerForecast.append(" HTTP/1.1\r\n");
         headerForecast.append("Connection: close\r\n");
         headerForecast.append("Host: ");
-        headerForecast.append(this.hostname+"\r\n");
+        headerForecast.append(this.hostname).append("\r\n");
         headerForecast.append("\r\n");
-        System.out.println("headerForecast from connect: ");
-        System.out.println(headerForecast.toString());
+
 
         try{
             this.weatherReport = new WeatherReportEntity();
@@ -99,10 +102,6 @@ public class OpenWeatherClient {
 
             this.weatherReport.setForecastMinAndMaxTemperatures(allMinAndMaxValue);
 
-
-            //this.weatherReport.setForecastMinAndMaxTemperatures(List.of("12", "13"));
-            //this.weatherReport.setForecastMinAndMaxTemperatures(fetchForecastWeather(headerForecast.toString()).get(0).getMinAndMaxTemps());
-            //this.weatherReport.setForecastMinAndMaxTemperatures();
             return this.weatherReport;
         }catch(IOException e){
             e.printStackTrace();
@@ -111,7 +110,12 @@ public class OpenWeatherClient {
     }
 
 
-
+    /**
+     * Recieves TCP-Socket-Stream in bytes, converts it to a parsable JSON-Object
+     * @param header Pre-built header from connect()
+     * @return WeatherEntity, a JSON-Object with all relevant weatherdata
+     * @throws IOException
+     */
     private WeatherEntity fetchCurrentWeather(String header) throws IOException {
 
         try (final Socket socket = new Socket(hostname,80)) {
@@ -135,7 +139,7 @@ public class OpenWeatherClient {
                     jsonObject.getJSONObject("main").get("temp_max").toString(),
                     jsonObject.get("dt").toString()
                     );
-            System.out.println(weatherEntity.toString());
+            System.out.println(weatherEntity);
             return weatherEntity;
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -143,6 +147,12 @@ public class OpenWeatherClient {
 
     }
 
+    /**
+     * Recieves TCP-Socket-Stream in bytes, converts it to an arrayList of parsable JSON-Objects
+     * @param header Pre-built header from connect()
+     * @return ArrayList of WeatherEntities, one object for every day of the forecast
+     * @throws IOException
+     */
     private ArrayList<WeatherEntity> fetchForecastWeather(String header) throws IOException {
 
         try (final Socket socket = new Socket(hostname,80)) {
@@ -153,7 +163,6 @@ public class OpenWeatherClient {
 
             final InputStream inputStream = socket.getInputStream();
             final String response = readAsString(inputStream);
-            //System.out.println(response);
             outputStream.close();
             inputStream.close();
             JSONObject jsonObject = new JSONObject(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
@@ -164,8 +173,6 @@ public class OpenWeatherClient {
                 String key = keys.next();
                 if (jsonObject.get(key) instanceof JSONObject) {
                     for(int i=0; i<jsonObject.getJSONArray("list").length(); i++) {
-                        //System.out.println(jsonObject.getJSONArray("list").getJSONObject(i).get("dt"));
-                        //checkDate(jsonObject.getJSONArray("list").getJSONObject(i).get("dt").toString());
                         if(checkDate(jsonObject.getJSONArray("list").getJSONObject(i).get("dt").toString())) {
                             WeatherEntity weatherEntity = new WeatherEntity(
                                     jsonObject.getJSONArray("list").getJSONObject(i).getJSONObject("main").get("temp").toString(),
@@ -192,14 +199,6 @@ public class OpenWeatherClient {
             List<String> dayFourMinMaxTemperatures = getMinAndMaxTemp(dayFourForecastEntity);
             List<String> dayFiveMinMaxTemperatures = getMinAndMaxTemp(dayFiveForecastEntity);
 
-            //List<String> allMinAndMaxValue = new ArrayList<>();
-            //Stream.of(dayOneMinMaxTemperatures, dayTwoMinMaxTemperatures, dayThreeMinMaxTemperatures, dayFourMinMaxTemperatures, dayFiveMinMaxTemperatures).forEach(allMinAndMaxValue::addAll);
-
-            //result.get(0).setMinAndMaxTemps(allMinAndMaxValue);
-
-//            WeatherReportEntity reportEntity = new WeatherReportEntity();
-//            reportEntity.setForecastMinAndMaxTemperatures(dayOneMinMaxTemperatures);
-
             result.get(0).setMinAndMaxTemps(dayOneMinMaxTemperatures);
             result.get(1).setMinAndMaxTemps(dayTwoMinMaxTemperatures);
             result.get(2).setMinAndMaxTemps(dayThreeMinMaxTemperatures);
@@ -213,7 +212,11 @@ public class OpenWeatherClient {
 
     }
 
-
+    /**
+     *
+     * @param response is the complete forecast object in String format
+     * @return maps all forecast object into a WeatherForecastEntity List and returns them
+     */
     private List<WeatherForecastEntityAll> getWeatherEntityByDay (String response) {
         List<WeatherForecastEntityAll> weatherForecastEntities = new ArrayList<>();
         JSONObject jsonObject = new JSONObject(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
@@ -229,6 +232,12 @@ public class OpenWeatherClient {
         return weatherForecastEntities;
     }
 
+    /**
+     *
+     * @param entities recevies a list of WeatherForecastEntities
+     * @return saves the first eight entries of that list and removes them from the original one
+     *         returns the first eight entries
+     */
     private List<WeatherForecastEntityAll> findInGroupsOfEight(List<WeatherForecastEntityAll> entities) {
         List<WeatherForecastEntityAll> result = entities.stream().limit(8).collect(Collectors.toList());
         result.forEach(entities::remove);
@@ -236,6 +245,11 @@ public class OpenWeatherClient {
     }
 
 
+    /**
+     *
+     * @param dailyEntities receives a list of WeatherForecastEntities
+     * @return returns a List of String consisting of a min and max temp for the forecast
+     */
     private List<String> getMinAndMaxTemp(List<WeatherForecastEntityAll> dailyEntities) {
         List<String> minAndMaxTemperatures = new ArrayList<>();
         WeatherForecastEntityAll minTempEntity = dailyEntities.stream().min(Comparator.comparing(WeatherForecastEntityAll::getTemp_min)).orElseThrow(NoSuchElementException::new);
@@ -247,6 +261,13 @@ public class OpenWeatherClient {
         return minAndMaxTemperatures;
     }
 
+
+    /**
+     *
+     * @param inputStream reads bytes from input stream
+     * @return returns them to output stream
+     * @throws IOException
+     */
     private static String readAsString(final InputStream inputStream) throws IOException {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final byte[] buffer = new byte[1024];
@@ -257,6 +278,11 @@ public class OpenWeatherClient {
         return outputStream.toString(StandardCharsets.UTF_8.name());
     }
 
+    /**
+     *
+     * @param dt receives a Date in String format
+     * @return boolean to check if date is the next day
+     */
     private boolean checkDate(String dt) {
         String toCompare = dt + "000";
         Calendar calTodayMidnight = new GregorianCalendar();

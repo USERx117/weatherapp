@@ -111,6 +111,10 @@ public class frm_configurateController {
     @FXML
     private TextField tf_serachLocation;
 
+    /**
+     * When the button "Save" is clicked in the configuration window, everything from the textfields will be stored as a property
+     * @param event c
+     */
     @FXML
     void bt_searchLocationButtonClicked(MouseEvent event) {
 
