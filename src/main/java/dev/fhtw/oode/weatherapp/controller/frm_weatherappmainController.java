@@ -6,6 +6,9 @@ import dev.fhtw.oode.weatherapp.client.OpenWeatherConfigReader;
 import dev.fhtw.oode.weatherapp.model.Configuration;
 import dev.fhtw.oode.weatherapp.model.WeatherEntity;
 import dev.fhtw.oode.weatherapp.model.WeatherReportEntity;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -89,6 +93,8 @@ public class frm_weatherappmainController implements Initializable{
     private Button bt_Update;
 
 
+    private long updateIntervalMinutes = 1;
+
 
     @FXML
     void bt_ConfigureButtonClicked(ActionEvent event) {
@@ -119,6 +125,11 @@ public class frm_weatherappmainController implements Initializable{
     @FXML
     void bt_Update_Clicked(MouseEvent event) {
         initialize(null, null);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(updateIntervalMinutes), e -> {
+            initialize(null, null);
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     @Override
@@ -155,6 +166,40 @@ public class frm_weatherappmainController implements Initializable{
         //this.lbl_foreD1Low.setText(bigDecimal(this.reportData.getForecast().get(0).getMinAndMaxTemps().get(0)));
         //System.out.println(weatherData);
         //System.out.println(reportData);
+
+        this.lbl_foreDateDayName1.setText(dateConvertFormatDayMonthPlusOffset(this.weatherData.getDate(), 1));
+        this.lbl_foreDateDayName2.setText(dateConvertFormatDayMonthPlusOffset(this.weatherData.getDate(), 2));
+        this.lbl_foreDateDayName3.setText(dateConvertFormatDayMonthPlusOffset(this.weatherData.getDate(), 3));
+        this.lbl_foreDateDayName4.setText(dateConvertFormatDayMonthPlusOffset(this.weatherData.getDate(), 4));
+        this.lbl_foreDateDayName5.setText(dateConvertFormatDayMonthPlusOffset(this.weatherData.getDate(), 5));
+
+
+        /*
+        @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        fetchWeatherData();
+
+        this.lbl_currTemp.setText(bigDecimal(this.weatherData.getTemperature()) + "°C");
+        this.lbl_currDate.setText(dateConvert(this.weatherData.getDate()));
+
+        this.lbl_currLocation.setText(this.weatherData.getLocation());
+        this.lbl_currPressure.setText(this.weatherData.getPressure() + "mbar");
+        this.lbl_currHigh.setText(bigDecimal(this.weatherData.getTemp_max()) + "°C");
+        this.lbl_currLow.setText(bigDecimal(this.weatherData.getTemp_min()) + "°C");
+        this.lbl_foreD1High.setText(bigDecimal(this.reportData.get(1)) + "°C");
+        this.lbl_foreD1Low.setText(bigDecimal(this.reportData.get(0)) + "°C");
+
+        this.lbl_foreD2High.setText(bigDecimal(this.reportData.get(3)) + "°C");
+        this.lbl_foreD2Low.setText(bigDecimal(this.reportData.get(2)) + "°C");
+        this.lbl_foreD3High.setText(bigDecimal(this.reportData.get(5)) + "°C");
+        this.lbl_foreD3Low.setText(bigDecimal(this.reportData.get(4)) + "°C");
+
+        this.lbl_foreD4High.setText(bigDecimal(this.reportData.get(7)) + "°C");
+        this.lbl_foreD4Low.setText(bigDecimal(this.reportData.get(6)) + "°C");
+        this.lbl_foreD5High.setText(bigDecimal(this.reportData.get(9)) + "°C");
+        this.lbl_foreD5Low.setText(bigDecimal(this.reportData.get(8)) + "°C");
+    }
+         */
     }
 
     private void fetchWeatherData() {
@@ -191,6 +236,17 @@ public class frm_weatherappmainController implements Initializable{
 
     private String dateConvertSmall(String currentDate) {
         long converted = Long.parseLong(currentDate+"000");
+        DateFormat obj = new SimpleDateFormat("E dd.MM");
+        Date res = new Date(converted);
+        return obj.format(res);
+    }
+
+    private String dateConvertFormatDayMonthPlusOffset(String currentDate, long offset) {
+        if (offset == 0){
+            offset = 1;
+        }
+        long converted = Long.parseLong(currentDate + "000");
+        converted += offset * 86400000;
         DateFormat obj = new SimpleDateFormat("E dd.MM");
         Date res = new Date(converted);
         return obj.format(res);
